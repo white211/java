@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.white.dao.IEmpDao">
+
+	<resultMap id="empResultMap" type="cn.white.entity.Emp">
+		<id property="empno" column="empno" />
+		<result property="empName" column="ename" />
+		<result property="hiredate" column="hiredate" />
+		<result property="job" column="job" />
+		<result property="sal" column="sal" />
+		<result property="comm" column="comm" />
+	</resultMap>
+    
+         
+	<!-- 实现动态查询 -->
+	<select id="findEmpByExampleIf" parameterType="Emp" resultMap="empResultMap">
+		select * from Emp
+		<where>
+			<if test="empno != null">
+				and empno = #{empno}
+			</if>
+
+			<if test="empName != null">
+				and ename like '%${empName}%'
+			</if>
+		</where>
+	</select>
+	<!-- 实现动态查询 -->
+	<!-- <select id="findEmpByExampleIf" parameterType="Emp" resultMap="empResultMap"> 
+		select * from Emp where 1=1 <if test = "deptno != null"> and deptno = #{deptno} 
+		</if> <if test="empName != null"> and ename like '%${empName}%' </if> </select> -->
+
+	<!-- 聚焦函数的使用 -->
+	<select id="countEmp" resultType="int">
+		select count(*) from Emp
+	</select>
+
+	<!--删除操作 -->
+	<delete id="deleteEmp" parameterType="int">
+		delete from Emp where
+		empno=#{empno}
+	</delete>
+	<update id="updateEmp" parameterType="Emp">
+		update Emp set
+		ename=#{empName},
+		job=#{job},
+		mgr=#{mgr},
+		hiredate=#{hiredate},
+		sal =
+		#{sal},
+		comm = #{comm},
+		deptno = #{deptno}
+		where empno = #{empno}
+	</update>
+
+	<!-- 插入操作 -->
+	<insert id="insertEmp" parameterType="cn.white.entity.Emp">
+		insert into
+		Emp(empno,ename,job,mgr,hiredate,sal,comm,deptno)
+		values(#{empno},#{empName},#{job},#{mgr},#{hiredate},
+		#{sal},#{comm},#{deptno})
+	</insert>
+
+	<insert id="insertEmpAutoId" parameterType="cn.white.entity.Emp"
+		useGeneratedKeys="true" keyProperty="empno">
+		insert into
+		Emp(ename,job,mgr,hiredate,sal,comm,deptno)
+		values(#{empName},#{job},#{mgr},#{hiredate},
+		#{sal},#{comm},#{deptno})
+	</insert>
+
+	<!-- 查询操作 -->
+	<select id="selectAll" resultType="Emp" resultMap="empResultMap">
+		select * from emp
+		<!-- SELECT empno, ename AS empName, hiredate, job, sal AS salary, mgr, 
+			comm, deptno FROM EMP -->
+	</select>
+
+	<select id="selectOne" resultType="cn.white.entity.Emp"
+		resultMap="empResultMap">
+		select * from emp where empno="7369"
+		<!-- SELECT empno, ename AS empName, hiredate, job, sal AS salary, mgr, 
+			comm, deptno FROM EMP where empno="7369" -->
+	</select>
+
+	<select id="selectByEmpno" resultType="cn.white.entity.Emp"
+		parameterType="int" resultMap="empResultMap">
+		select * from emp where empno=#{empno}
+		<!-- SELECT empno, ename AS empName, hiredate, job, sal AS salary, mgr, 
+			comm, deptno FROM EMP where empno=#{empno} -->
+	</select>
+</mapper>
+
+

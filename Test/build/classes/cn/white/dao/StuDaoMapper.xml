@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.white.dao.IStuDao">
+     <select id="selectAll" resultType="cn.white.entity.Stu">
+       <!-- select * from emp -->
+       SELECT
+  			*
+      	FROM STU
+     </select>
+     
+      <select id="selectOne" resultType="cn.white.entity.Stu">
+       <!-- select * from emp -->
+       SELECT
+  			*
+      	FROM Stu where sid="S_1001"
+     </select>
+     
+      <select id="selectBySid" resultType="cn.white.entity.Stu" parameterType="int">
+       <!-- select * from emp -->
+       SELECT
+  		*
+      	FROM Stu where sid=#{sid}
+     </select>
+</mapper>
+
+
