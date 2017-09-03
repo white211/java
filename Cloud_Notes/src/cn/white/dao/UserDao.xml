@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.white.dao.UserDao">
+
+	<resultMap id="userResultMap" type="cn.white.entity.User">
+		<id property="cn_user_id" column="cn_user_id" />
+		<result property="cn_user_name" column="cn_user_name" />
+		<result property="cn_user_password" column="cn_user_password" />
+		<result property="cn_user_desc" column="cn_user_desc" />
+	</resultMap>
+
+	<!-- 通过用户名查询用户信息 -->
+	<select id="findUserByName" parameterType="string" resultType="cn.white.entity.User"
+		resultMap="userResultMap">
+		select * from cn_user where cn_user_name=#{cn_user_name}
+	</select>
+
+<!-- 通过密码查询用户信息 -->
+	<select id="findUserByPassword" parameterType="string" resultType="cn.white.entity.User"
+		resultMap="userResultMap">
+		select * from cn_user where cn_user_password=#{cn_user_password}
+	</select>
+
+	<!-- 用于用户注册时保存信息到数据库 -->
+	<insert id="saveUser" parameterType="cn.white.entity.User">
+		insert into
+		cn_user(cn_user_id,cn_user_name,cn_user_password,cn_user_desc)
+		values(#{cn_user_id},#{cn_user_name},#{cn_user_password},#{cn_user_desc})
+	</insert>
+
+	<!-- 通过用户名用于修改密码 -->
+	<update id="update" parameterType="cn.white.entity.User">
+		update cn_user
+		set
+		cn_user_name=#{cn_user_name},
+		cn_user_password=#{cn_user_password},
+		cn_user_desc=#{cn_user_desc}
+		where cn_user_id=#{cn_user_id}
+	</update>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.white.dao.NoteBookDao">
+      <!-- 选择普通笔记本 -->
+      <select id="findNormalNoteBook" parameterType="integer" resultType="cn.white.entity.NoteBook" >
+          select * from cn_notebook 
+          where cn_user_id=#{cn_user_id}
+          and cn_notebook_type_id in(
+                 select cn_notebook_type_id from cn_notebook_type
+                 where cn_notebook_type_code
+                 in ('normal')
+          ) 
+          order by cn_notebook_createtime desc
+      </select>
+      
+      <!-- 新建新的笔记本 -->
+      <insert id="saveNoteBook" parameterType="cn.white.entity.NoteBook">
+           insert into 
+           cn_notebook(cn_user_id,cn_notebook_name,cn_notebook_desc,cn_notebook_createtime,cn_notebook_type_id)
+           values(#{cn_user_id},#{cn_notebook_name},#{cn_notebook_desc},#{cn_notebook_createtime},#{cn_notebook_type_id})
+      </insert>
+      
+      
+</mapper>
+
+
+
+
+
+
+
+
+
